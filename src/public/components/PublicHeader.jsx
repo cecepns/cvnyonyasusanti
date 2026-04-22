@@ -50,7 +50,7 @@ export default function PublicHeader({ settings, cart = [] }) {
       <div className="relative z-10 bg-white container-app flex items-center justify-between gap-3 py-3">
         <Link to="/" className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3 md:flex-initial">
           <img
-            src="/logo.jpeg"
+            src="/logo.png"
             alt="Logo"
             className="h-10 w-10 shrink-0 rounded-full border border-slate-200 object-cover sm:h-11 sm:w-11"
           />
