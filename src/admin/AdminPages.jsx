@@ -5,6 +5,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import BannerPage from "./pages/BannerPage";
 import CrudSimple from "./pages/CrudSimple";
 import PaymentPage from "./pages/PaymentPage";
+import ShippingPage from "./pages/ShippingPage";
 import ProductsAdmin from "./pages/ProductsAdmin";
 import SettingsPage from "./pages/SettingsPage";
 
@@ -20,6 +21,7 @@ export default function AdminPages({ token }) {
         element={<CrudSimple title="Kategori" endpoint="categories" headers={headers} hasImage />}
       />
       <Route path="/payments" element={<PaymentPage headers={headers} />} />
+      <Route path="/shipping" element={<ShippingPage headers={headers} />} />
       <Route path="/settings" element={<SettingsPage headers={headers} />} />
       <Route path="/products" element={<ProductsAdmin headers={headers} />} />
     </Routes>

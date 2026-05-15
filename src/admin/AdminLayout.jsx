@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Link, useLocation } from "react-router-dom";
-import { Images, LayoutDashboard, ListTree, Package, Settings, Wallet } from "lucide-react";
+import { Images, LayoutDashboard, ListTree, Package, Settings, Truck, Wallet } from "lucide-react";
 import AdminPages from "./AdminPages";
 
 export default function AdminLayout({ token, setToken }) {
@@ -11,6 +11,7 @@ export default function AdminLayout({ token, setToken }) {
     { to: "/admin/categories", icon: ListTree, text: "Kategori" },
     { to: "/admin/products", icon: Package, text: "Produk" },
     { to: "/admin/payments", icon: Wallet, text: "Payment" },
+    { to: "/admin/shipping", icon: Truck, text: "Jasa Kirim" },
     { to: "/admin/settings", icon: Settings, text: "Settings" },
   ];
 

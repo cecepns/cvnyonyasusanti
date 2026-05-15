@@ -15,7 +15,12 @@ import CartPage from "./public/pages/CartPage";
 function App() {
   const [cart, setCart] = useState(() => JSON.parse(localStorage.getItem("cart_data") || "[]"));
   const [token, setToken] = useAdminAuth();
-  const { data: homeSettings } = useFetch("/settings/public", { settings: null, paymentMethods: [] });
+  const { data: homeSettings } = useFetch("/settings/public", {
+    settings: null,
+    paymentMethods: [],
+    shippingMethods: [],
+  });
+  const { data: shippingMethods } = useFetch("/shipping-methods", []);
   const { data: banners, loading: loadingBanners } = useFetch("/banners", []);
   const { data: categories } = useFetch("/categories", []);
   const { data: products } = useFetch("/products?limit=8", []);
@@ -28,11 +33,26 @@ function App() {
     localStorage.setItem("cart_data", JSON.stringify(cart));
   }, [cart]);
 
-  const addCart = (product) => {
+  const addCart = (product, variant = null) => {
+    const lineId = variant ? `${product.id}-v${variant.id}` : String(product.id);
+    const lineName = variant ? `${product.name} (${variant.name})` : product.name;
+    const linePrice = variant ? Number(variant.price) : Number(product.price);
+
     setCart((prev) => {
-      const found = prev.find((x) => x.id === product.id);
-      if (found) return prev.map((x) => (x.id === product.id ? { ...x, qty: x.qty + 1 } : x));
-      return [...prev, { id: product.id, name: product.name, price: Number(product.price), qty: 1 }];
+      const found = prev.find((x) => x.lineId === lineId);
+      if (found) return prev.map((x) => (x.lineId === lineId ? { ...x, qty: x.qty + 1 } : x));
+      return [
+        ...prev,
+        {
+          lineId,
+          id: product.id,
+          variantId: variant?.id ?? null,
+          variantName: variant?.name ?? null,
+          name: lineName,
+          price: linePrice,
+          qty: 1,
+        },
+      ];
     });
   };
 
@@ -45,6 +65,9 @@ function App() {
             <HomePage
               settings={homeSettings.settings}
               paymentMethods={homeSettings.paymentMethods}
+              shippingMethods={
+                shippingMethods.length > 0 ? shippingMethods : homeSettings.shippingMethods || []
+              }
               banners={banners}
               categories={categories}
               products={products}

@@ -12,6 +12,7 @@ export default function HomePage({
   categories,
   products,
   paymentMethods,
+  shippingMethods,
   loadingBanners,
 }) {
   return (
@@ -98,6 +99,31 @@ export default function HomePage({
           ))}
         </div>
       </section>
+
+      {shippingMethods?.length > 0 && (
+        <section className="container-app py-4" data-aos="fade-up">
+          <h2 className="section-title">Jasa Kirim</h2>
+          <p className="mb-4 text-sm text-slate-600">
+            Kami melayani pengiriman melalui ekspedisi berikut.
+          </p>
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
+            {shippingMethods.map((s) => (
+              <div key={s.id} className="card-clean flex flex-col items-center p-4 text-center">
+                {s.image_url ? (
+                  <img src={s.image_url} alt={s.name} className="mb-3 h-14 w-full object-contain" />
+                ) : (
+                  <div>
+                    <span className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-slate-100 text-lg font-bold text-slate-500">
+                      {s.name?.charAt(0) || "?"}
+                    </span>
+                  </div>
+                )}
+                <p className="font-semibold text-slate-800">{s.name}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {paymentMethods?.length > 0 && (
         <section className="container-app py-4" data-aos="fade-up">

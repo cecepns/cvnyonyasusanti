@@ -31,7 +31,7 @@ export default function CartPage({ cart, setCart, settings }) {
       <div className="space-y-3">
         {cart.map((item) => (
           <div
-            key={item.id}
+            key={item.lineId || item.id}
             className="card-clean flex flex-wrap items-center justify-between gap-3 p-4 sm:flex-nowrap"
           >
             <div className="min-w-0 flex-1">
@@ -46,7 +46,9 @@ export default function CartPage({ cart, setCart, settings }) {
                   onClick={() =>
                     setCart((prev) =>
                       prev.map((x) =>
-                        x.id === item.id ? { ...x, qty: Math.max(1, x.qty - 1) } : x
+                        (x.lineId || x.id) === (item.lineId || item.id)
+                          ? { ...x, qty: Math.max(1, x.qty - 1) }
+                          : x
                       )
                     )
                   }
@@ -59,7 +61,9 @@ export default function CartPage({ cart, setCart, settings }) {
                   className="rounded-lg border px-3 py-1"
                   onClick={() =>
                     setCart((prev) =>
-                      prev.map((x) => (x.id === item.id ? { ...x, qty: x.qty + 1 } : x))
+                      prev.map((x) =>
+                        (x.lineId || x.id) === (item.lineId || item.id) ? { ...x, qty: x.qty + 1 } : x
+                      )
                     )
                   }
                 >
@@ -70,7 +74,9 @@ export default function CartPage({ cart, setCart, settings }) {
                 type="button"
                 className="inline-flex items-center justify-center rounded-lg border border-red-200 p-2 text-red-600 transition hover:bg-red-50"
                 aria-label={`Hapus ${item.name} dari keranjang`}
-                onClick={() => setCart((prev) => prev.filter((x) => x.id !== item.id))}
+                onClick={() =>
+                  setCart((prev) => prev.filter((x) => (x.lineId || x.id) !== (item.lineId || item.id)))
+                }
               >
                 <Trash2 size={18} aria-hidden />
               </button>
